@@ -6,16 +6,17 @@
 /*   By: lperez-h <lperez-h@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 01:15:22 by lperez-h          #+#    #+#             */
-/*   Updated: 2023/10/05 01:05:21 by lperez-h         ###   ########.fr       */
+/*   Updated: 2023/10/05 10:37:28 by lperez-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+#include "Printf/ft_printf.h"
 
 void	send_signal(int pid, char *mensaje, size_t len)
 {
-	int	letra;
-	int	i;
+	int		letra;
+	size_t	i;
 
 	i = 0;
 	while (i <= len)
