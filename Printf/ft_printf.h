@@ -6,16 +6,16 @@
 /*   By: lperez-h <lperez-h@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 14:05:09 by lperez-h          #+#    #+#             */
-/*   Updated: 2023/10/08 23:02:00 by lperez-h         ###   ########.fr       */
+/*   Updated: 2023/10/09 00:09:10 by lperez-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
-# include	<unistd.h>
-# include	<stdarg.h>
-# include	<stdlib.h>
-# include	<limits.h>
+# include <unistd.h>
+# include <stdarg.h>
+# include <stdlib.h>
+# include <limits.h>
 
 int			ft_printf(const char *string, ...);
 void		ft_putchar(char c, int *length);
