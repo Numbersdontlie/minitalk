@@ -6,16 +6,17 @@
 /*   By: lperez-h <lperez-h@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 01:15:22 by lperez-h          #+#    #+#             */
-/*   Updated: 2023/10/05 01:05:21 by lperez-h         ###   ########.fr       */
+/*   Updated: 2023/10/08 22:51:33 by lperez-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+#include "Printf/ft_printf.h"
 
 void	send_signal(int pid, char *mensaje, size_t len)
 {
-	int	letra;
-	int	i;
+	int		letra;
+	size_t	i;
 
 	i = 0;
 	while (i <= len)
@@ -24,11 +25,11 @@ void	send_signal(int pid, char *mensaje, size_t len)
 		while (letra < 7)
 		{
 			if (((unsigned char)(mensaje[i] >> letra) & 1))
-				kill(pid, SIGUSR2);
-			else
 				kill(pid, SIGUSR1);
+			else
+				kill(pid, SIGUSR2);
 			letra++;
-			usleep(40);
+			usleep(60);
 		}
 		i++;
 	}

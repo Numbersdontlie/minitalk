@@ -6,11 +6,12 @@
 /*   By: lperez-h <lperez-h@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 23:53:16 by lperez-h          #+#    #+#             */
-/*   Updated: 2023/10/05 01:08:49 by lperez-h         ###   ########.fr       */
+/*   Updated: 2023/10/08 22:51:27 by lperez-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+#include "Printf/ft_printf.h"
 
 void	deal_with_bit(int bit)
 {
