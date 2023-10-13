@@ -23,7 +23,7 @@ client: client.o
 		@echo "Server and Client are ready to go"
 
 printf:
-		make -C Printf
+		@make -C Printf
 
 clean:
 		@make clean -s -C Printf

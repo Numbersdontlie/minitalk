@@ -6,33 +6,51 @@
 /*   By: lperez-h <lperez-h@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 01:15:22 by lperez-h          #+#    #+#             */
-/*   Updated: 2023/10/09 00:08:18 by lperez-h         ###   ########.fr       */
+/*   Updated: 2023/10/13 22:46:32 by lperez-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 #include "Printf/ft_printf.h"
 
-void	send_signal(int pid, char *mensaje, size_t len)
+void	send_signal(int pid, char *mensaje)
 {
-	int		letra;
-	size_t	i;
+	unsigned char	c;
+	int				bits;
 
-	i = 0;
-	while (i <= len)
+	while (*mensaje)
 	{
-		letra = 0;
-		while (letra < 7)
+		c = *mensaje;
+		bits = 8;
+		while (bits--)
 		{
-			if (((unsigned char)(mensaje[i] >> letra) & 1))
+			if (c & 0b10000000)
 				kill(pid, SIGUSR1);
 			else
 				kill(pid, SIGUSR2);
-			letra++;
 			usleep(60);
+			c <<= 1;
 		}
-		i++;
+		mensaje++;
 	}
+}
+
+void	sig_handler(int signum)
+{
+	if (signum == SIGUSR1)
+		ft_printf("Signal is alive!\n");
+}
+
+void	config_signals(void)
+{
+	struct sigaction	sig;
+
+	sig.sa_handler = &sig_handler;
+	sig.sa_flags = SA_SIGINFO;
+	if (sigaction(SIGUSR1, &sig, NULL) == -1)
+		ft_printf("Failed to change SIGUSR1 behavior");
+	if (sigaction(SIGUSR2, &sig, NULL) == -1)
+		ft_printf("Failed to change SIGUSR2 behavior");
 }
 
 int	main(int argc, char **argv)
@@ -54,7 +72,8 @@ int	main(int argc, char **argv)
 			ft_printf("Bitte ein texte eingabe, danke");
 			return (0);
 		}
-		send_signal(id_server, mensaje, ft_strlen(mensaje));
+		config_signals();
+		send_signal(id_server, mensaje);
 	}
 	else
 		ft_printf("[ERROR]. Count your arguments. ;) XD");
