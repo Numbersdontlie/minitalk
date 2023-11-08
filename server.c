@@ -6,7 +6,7 @@
 /*   By: lperez-h <lperez-h@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 23:53:16 by lperez-h          #+#    #+#             */
-/*   Updated: 2023/11/07 16:47:33 by lperez-h         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:18:04 by lperez-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,20 @@ void	deal_with_sig(int signum, siginfo_t *info, void *ucontent)
 {
 	static int				i;
 	static unsigned char	c;
-
+	int j = 0;
+	
 	(void)ucontent;
 	if (signum == SIGUSR1)
-		c = SIGUSR1;
+		j++;
+	c = c | SIGUSR1;
 	i++;
 	if (i == 8)
 	{
-		ft_printf("%c",c);
-		fflush(0);
 		if (c == '\0')
-			ft_printf("%c", '\n');
+			write(1, "\n", 1);
+		else 
+			write(1, &c, 1);
+		fflush(0);
 		if (kill(info->si_pid, SIGUSR1) == -1)
 			ft_printf("Server failed to send SIGUSR1");
 		c = 0;
