@@ -6,7 +6,7 @@
 /*   By: lperez-h <lperez-h@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 01:15:22 by lperez-h          #+#    #+#             */
-/*   Updated: 2023/11/08 15:26:24 by lperez-h         ###   ########.fr       */
+/*   Updated: 2023/11/10 17:18:25 by lperez-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 void	send_signal(int pid, char *mensaje)
 {
-	unsigned char	c;
-	unsigned char	b;
-	int				bits;
+	static char	c;
+	static char	b;
+	int			bits;
 
 	while (*mensaje)
 	{
@@ -25,13 +25,19 @@ void	send_signal(int pid, char *mensaje)
 		bits = 8;
 		while (bits--)
 		{
-			ft_printf("%c", c);
+			//ft_printf("%c", c);
 			b = (c >> bits & 1); // b = c >> bits;
-			ft_printf("%c", b);
-			if (b == 0)
-				kill(pid, SIGUSR2);
-			else
+			//ft_printf("%c", b);
+			if (b == 1)
+			{
 				kill(pid, SIGUSR1);
+				ft_printf("%i", 1);
+			}
+			else
+			{
+				kill(pid, SIGUSR2);
+				ft_printf("%i", 0);
+			}
 			usleep(500);
 		}
 		//ft_printf("%c", b);
@@ -41,8 +47,11 @@ void	send_signal(int pid, char *mensaje)
 
 void	sig_handler(int signum)
 {
-	if (signum == SIGUSR1)
-		ft_printf("Signal is alive!\n");
+	if (signum == SIGINT || signum == SIGTERM)
+		exit (0);
+	/*if (signum == SIGUSR1 || signum == SIGUSR2)
+		send_signal();
+		//ft_printf("Signal is alive!\n");*/
 }
 
 void	config_signals(void)

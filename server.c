@@ -6,7 +6,7 @@
 /*   By: lperez-h <lperez-h@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 23:53:16 by lperez-h          #+#    #+#             */
-/*   Updated: 2023/11/08 15:18:04 by lperez-h         ###   ########.fr       */
+/*   Updated: 2023/11/10 17:44:30 by lperez-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,20 @@
 void	deal_with_sig(int signum, siginfo_t *info, void *ucontent)
 {
 	static int				i;
+	static int				j;
 	static unsigned char	c;
-	int j = 0;
+	//static char 			*mensaje;
 	
 	(void)ucontent;
+	j = 0;
 	if (signum == SIGUSR1)
 		j++;
-	c = c | SIGUSR1;
-	i++;
-	if (i == 8)
+	i = 0;
+	c = 0;
+	c = (c << 1 | (signum == SIGUSR2));
+	if (++i == 8)
 	{
-		if (c == '\0')
+		if ((char)c == '\0')
 			write(1, "\n", 1);
 		else 
 			write(1, &c, 1);
@@ -37,10 +40,13 @@ void	deal_with_sig(int signum, siginfo_t *info, void *ucontent)
 		i = 0;
 	}
 	else
+	{
 		c = c << 1;
+		ft_printf("%c", c);
+	}
 }
-/*
-void	signals(void)
+
+/*void	signals(void)
 {
 
 	sig.sa_sigaction = &deal_with_sig;
@@ -63,7 +69,7 @@ int	main(void)
 	sigaction(SIGUSR1, &act, NULL);
 	sigaction(SIGUSR2, &act, NULL);
 	
-	// signals();
+	//signals();
 	while (1)
 	{
 		pause();
