@@ -6,7 +6,7 @@
 /*   By: lperez-h <lperez-h@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 23:53:16 by lperez-h          #+#    #+#             */
-/*   Updated: 2023/11/10 17:44:30 by lperez-h         ###   ########.fr       */
+/*   Updated: 2023/11/17 15:17:09 by lperez-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,35 @@
 
 void	deal_with_sig(int signum, siginfo_t *info, void *ucontent)
 {
-	static int				i;
-	static int				j;
+	
+	static char	c;
+	static int	i;
+	(void)ucontent;
+	(void)info;
+	
+	if (signum == SIGUSR1)
+	{
+		c = (c << 1 | 1);
+		i++;
+	}
+	if (signum == SIGUSR2)
+	{
+		c = c << 1;
+		i++;
+	}
+	if ((i % 8) == 0)
+	{
+		write(1, &c, 1);
+	}
+}
+	/*static int				i = 0;
+	static int				j = 0;
 	static unsigned char	c;
 	//static char 			*mensaje;
 	
 	(void)ucontent;
-	j = 0;
 	if (signum == SIGUSR1)
 		j++;
-	i = 0;
-	c = 0;
 	c = (c << 1 | (signum == SIGUSR2));
 	if (++i == 8)
 	{
@@ -33,7 +51,6 @@ void	deal_with_sig(int signum, siginfo_t *info, void *ucontent)
 			write(1, "\n", 1);
 		else 
 			write(1, &c, 1);
-		fflush(0);
 		if (kill(info->si_pid, SIGUSR1) == -1)
 			ft_printf("Server failed to send SIGUSR1");
 		c = 0;
@@ -44,7 +61,7 @@ void	deal_with_sig(int signum, siginfo_t *info, void *ucontent)
 		c = c << 1;
 		ft_printf("%c", c);
 	}
-}
+	ft_printf("%c", c);*/
 
 /*void	signals(void)
 {
@@ -63,7 +80,7 @@ int	main(void)
 	
 	ft_printf("Welcome to the matrix, blue or red pill?\n");
 	ft_printf("My server PID is: %d\n", getpid());
-	sigemptyset(&act.sa_mask);
+	//sigemptyset(&act.sa_mask);
 	act.sa_sigaction = &deal_with_sig;
 	act.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &act, NULL);

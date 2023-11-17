@@ -4,7 +4,7 @@ SRCS = client.c server.c
 
 OBJS = ${SRCS:.c=.o}
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 
 all: ${NAME}
 
