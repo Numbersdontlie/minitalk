@@ -6,7 +6,7 @@
 /*   By: lperez-h <lperez-h@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 01:15:22 by lperez-h          #+#    #+#             */
-/*   Updated: 2023/11/21 12:03:36 by lperez-h         ###   ########.fr       */
+/*   Updated: 2024/02/13 10:37:42 by lperez-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,17 @@ void	send_signal(int pid, char *mensaje)
 
 	while (*mensaje)
 	{
-		c = *mensaje; 
+		c = *mensaje;
 		bits = 8;
 		while (bits--)
 		{
-			//ft_printf("%c", c);
-			b = (c >> bits & 1); // b = c >> bits;
-			//ft_printf("%c", b);
+			b = (c >> bits & 1);
 			if (b == 1)
-			{
 				kill(pid, SIGUSR1);
-				ft_printf("%i", 1);
-			}
 			else
-			{
 				kill(pid, SIGUSR2);
-				ft_printf("%i", 0);
-			}
 			usleep(500);
 		}
-		//ft_printf("%c", b);
 		mensaje++;
 	}
 }
@@ -49,9 +40,6 @@ void	sig_handler(int signum)
 {
 	if (signum == SIGINT || signum == SIGTERM)
 		exit (0);
-	/*if (signum == SIGUSR1 || signum == SIGUSR2)
-		send_signal();
-		//ft_printf("Signal is alive!\n");*/
 }
 
 void	config_signals(void)
@@ -71,7 +59,9 @@ int	main(int argc, char **argv)
 	int		id_server;
 	char	*mensaje;
 
-	if (argc == 3)
+	if (argc != 3)
+		ft_printf("[ERROR]. Count your arguments. ;) XD");
+	else
 	{
 		id_server = ft_atoi(argv[1]);
 		if (!id_server)
@@ -88,7 +78,5 @@ int	main(int argc, char **argv)
 		config_signals();
 		send_signal(id_server, mensaje);
 	}
-	else
-		ft_printf("[ERROR]. Count your arguments. ;) XD");
 	return (0);
 }
